@@ -1,6 +1,6 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="CopyFullyQualifiedNamePackage.cs" company="Tableau">
-//     Copyright (c) Tableau.  All rights reserved.
+// <copyright file="Command1Package.cs" company="Company">
+//     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -15,9 +15,6 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
-using EnvDTE80;
-using EnvDTE;
-using System.Windows.Forms;
 
 namespace CopyFullyQualifiedNameExtensio
 {
@@ -38,76 +35,27 @@ namespace CopyFullyQualifiedNameExtensio
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    /// 
-    //https://msdn.microsoft.com/en-us/library/envdte.filecodemodel.codeelementfrompoint.aspx
     [PackageRegistration(UseManagedResourcesOnly = true)]
-    [ProvideAutoLoad("{f1536ef8-92ec-443c-9ed7-fdadf150da82}")]
-    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
-    [Guid(CopyFullyQualifiedNamePackage.PackageGuidString)]
+    [InstalledProductRegistration("#1110", "#1112", "1.0", IconResourceID = 1400)] // Info on this package for Help/About
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [Guid(Command1Package.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class CopyFullyQualifiedNamePackage : Package, IDisposable
+    public sealed class Command1Package : Package
     {
-        public static CopyFullyQualifiedNamePackage instance;
         /// <summary>
-        /// CopyFullyQualifiedNamePackage GUID string.
+        /// Command1Package GUID string.
         /// </summary>
-        public const string PackageGuidString = "29a7ddd4-1490-4959-9781-5dfd1bd0957a";
+        public const string PackageGuidString = "7dc8a20c-7b7a-49c3-8e2f-333e38420c78";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CopyFullyQualifiedNamePackage"/> class.
+        /// Initializes a new instance of the <see cref="Command1"/> class.
         /// </summary>
-        /// 
-        private static DTE2 dte;
-        public CopyFullyQualifiedNamePackage()
+        public Command1Package()
         {
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
-            
-        }
-
-        public void RunShit()
-        {
-            
-
-            try
-            {
-                TextSelection sel =
-                    (TextSelection)dte.ActiveDocument.Selection;
-                TextPoint pnt = (TextPoint)sel.ActivePoint;
-
-                // Discover every code element containing the insertion point.
-                FileCodeModel fcm =
-                    dte.ActiveDocument.ProjectItem.FileCodeModel;
-                string elems = "";
-                vsCMElement scopes = 0;
-
-                foreach (vsCMElement scope in Enum.GetValues(scopes.GetType()))
-                {
-                    CodeElement elem = null;
-                    try
-                    {
-                        elem = fcm.CodeElementFromPoint(pnt, scope);
-                    }
-                    catch(Exception ex)
-                    {
-
-                    }
-                    
-
-                    if (elem != null)
-                        elems += elem.Name + " (" + scope.ToString() + ")\n";
-                }
-
-                MessageBox.Show(
-                    "The following elements contain the insertion point:\n\n" +
-                    elems);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
 
         #region Package Members
@@ -118,12 +66,8 @@ namespace CopyFullyQualifiedNameExtensio
         /// </summary>
         protected override void Initialize()
         {
+            Command1.Initialize(this);
             base.Initialize();
-            dte = (DTE2)GetService(typeof(DTE));
-        }
-
-        public void Dispose()
-        {
         }
 
         #endregion
