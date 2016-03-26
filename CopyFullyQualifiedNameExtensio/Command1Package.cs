@@ -5,18 +5,11 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
 
-namespace CopyFullyQualifiedNameExtensio
+namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -48,7 +41,7 @@ namespace CopyFullyQualifiedNameExtensio
         public const string PackageGuidString = "7dc8a20c-7b7a-49c3-8e2f-333e38420c78";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Command1"/> class.
+        /// Initializes a new instance of the <see cref="CopyFullyQualifiedNameCommand"/> class.
         /// </summary>
         public Command1Package()
         {
@@ -66,7 +59,7 @@ namespace CopyFullyQualifiedNameExtensio
         /// </summary>
         protected override void Initialize()
         {
-            Command1.Initialize(this);
+            CopyFullyQualifiedNameCommand.Initialize(this);
             base.Initialize();
         }
 

@@ -26,8 +26,8 @@
     <ProjectGuid>{B6CCDA27-E046-42A0-9578-96983D904494}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CopyFullyQualifiedNameExtensio</RootNamespace>
-    <AssemblyName>CopyFullyQualifiedNameExtensio</AssemblyName>
+    <RootNamespace>VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension</RootNamespace>
+    <AssemblyName>CopyFullyQualifiedNameExtension</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -54,7 +54,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Command1.cs" />
+    <Compile Include="CopyFullyQualifiedNameCommand.cs" />
     <Compile Include="Command1Package.cs" />
     <Compile Include="CopyFullyQualifiedNamePackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

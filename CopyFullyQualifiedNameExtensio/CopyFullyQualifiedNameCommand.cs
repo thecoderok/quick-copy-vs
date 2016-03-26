@@ -6,21 +6,15 @@
 
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using EnvDTE80;
-using EnvDTE;
 
-namespace CopyFullyQualifiedNameExtensio
+namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
 {
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class Command1
+    internal sealed class CopyFullyQualifiedNameCommand
     {
-        private DTE2 applicationObject;
-
         /// <summary>
         /// Command ID.
         /// </summary>
@@ -37,11 +31,11 @@ namespace CopyFullyQualifiedNameExtensio
         private readonly Package package;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Command1"/> class.
+        /// Initializes a new instance of the <see cref="CopyFullyQualifiedNameCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
-        private Command1(Package package)
+        private CopyFullyQualifiedNameCommand(Package package)
         {
             if (package == null)
             {
@@ -62,7 +56,7 @@ namespace CopyFullyQualifiedNameExtensio
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static Command1 Instance
+        public static CopyFullyQualifiedNameCommand Instance
         {
             get;
             private set;
@@ -85,7 +79,7 @@ namespace CopyFullyQualifiedNameExtensio
         /// <param name="package">Owner package, not null.</param>
         public static void Initialize(Package package)
         {
-            Instance = new Command1(package);
+            Instance = new CopyFullyQualifiedNameCommand(package);
         }
 
         /// <summary>
