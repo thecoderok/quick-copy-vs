@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell;
 using EnvDTE80;
 using EnvDTE;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
 {
@@ -23,7 +24,7 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class CopyFullyQualifiedNamePackage : Package, IDisposable
     {
-        public static CopyFullyQualifiedNamePackage instance;
+        private static CopyFullyQualifiedNamePackage instance;
         /// <summary>
         /// CopyFullyQualifiedNamePackage GUID string.
         /// </summary>
@@ -40,13 +41,21 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
-            
+            instance = this;
+        }
+
+        public static CopyFullyQualifiedNamePackage Get()
+        {
+            return instance;
         }
 
         public void RunShit()
         {
-            
+            System.Threading.Tasks.Task.Factory.StartNew(CopyFullyQualifiedNameInternal);
+        }
 
+        private void CopyFullyQualifiedNameInternal()
+        {
             try
             {
                 TextSelection sel =
@@ -66,11 +75,11 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
                     {
                         elem = fcm.CodeElementFromPoint(pnt, scope);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
 
                     }
-                    
+
 
                     if (elem != null)
                         elems += elem.Name + " (" + scope.ToString() + ")\n";
@@ -100,6 +109,7 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
 
         public void Dispose()
         {
+            
         }
 
         #endregion
