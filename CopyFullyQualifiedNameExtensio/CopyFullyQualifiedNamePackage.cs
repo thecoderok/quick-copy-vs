@@ -10,7 +10,9 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE80;
 using EnvDTE;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
@@ -30,6 +32,8 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
         /// </summary>
         public const string PackageGuidString = "29a7ddd4-1490-4959-9781-5dfd1bd0957a";
 
+        private readonly Lazy<string> NameForLogging;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CopyFullyQualifiedNamePackage"/> class.
         /// </summary>
@@ -42,6 +46,7 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
             instance = this;
+            NameForLogging = new Lazy<string>(() => this.GetType().FullName);
         }
 
         public static CopyFullyQualifiedNamePackage Get()
@@ -49,9 +54,10 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
             return instance;
         }
 
-        public void RunShit()
+        public void PerformCopy()
         {
-            System.Threading.Tasks.Task.Factory.StartNew(CopyFullyQualifiedNameInternal);
+            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            System.Threading.Tasks.Task.Factory.StartNew(CopyFullyQualifiedNameInternal, CancellationToken.None, TaskCreationOptions.None, scheduler);
         }
 
         private void CopyFullyQualifiedNameInternal()
@@ -60,13 +66,21 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
             {
                 TextSelection sel =
                     (TextSelection)dte.ActiveDocument.Selection;
-                TextPoint pnt = (TextPoint)sel.ActivePoint;
+                TextPoint pnt = sel.ActivePoint as TextPoint;
+                if (pnt == null)
+                {
+                    // Not in editor? Exit.
+                    ActivityLog.LogWarning(NameForLogging.Value, "Can't obtain TextPoint, returning.");
+                }
 
                 // Discover every code element containing the insertion point.
                 FileCodeModel fcm =
                     dte.ActiveDocument.ProjectItem.FileCodeModel;
-                string elems = "";
                 vsCMElement scopes = 0;
+
+                // Super-dumb way of getting fully qualified name - find longest full name
+                // Seems to be working. It is late and I don't want to invent some heuristic that depend on the Scope type
+                string longestName = string.Empty;
 
                 foreach (vsCMElement scope in Enum.GetValues(scopes.GetType()))
                 {
@@ -74,24 +88,31 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
                     try
                     {
                         elem = fcm.CodeElementFromPoint(pnt, scope);
+
+                        if (elem != null)
+                        {
+                            var name = elem.FullName;
+                            if (name.Length > longestName.Length)
+                            {
+                                longestName = name;
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
-
-                    }
-
-
-                    if (elem != null)
-                        elems += elem.Name + " (" + scope.ToString() + ")\n";
+                        ActivityLog.TryLogInformation(this.GetType().FullName, "Unable to get code element, exception: " + ex.Message);
+                        continue;
+                    }                    
                 }
 
-                MessageBox.Show(
-                    "The following elements contain the insertion point:\n\n" +
-                    elems);
+                if (!string.IsNullOrWhiteSpace(longestName))
+                {
+                    Clipboard.SetText(longestName);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ActivityLog.LogError(this.GetType().FullName, "Error when trying to copy fully qualified name: " + ex.Message);
             }
         }
 

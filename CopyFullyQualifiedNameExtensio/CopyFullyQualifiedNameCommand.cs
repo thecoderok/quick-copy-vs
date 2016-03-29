@@ -91,7 +91,7 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            CopyFullyQualifiedNamePackage.Get().RunShit();
+            CopyFullyQualifiedNamePackage.Get().PerformCopy();
         }
     }
 }

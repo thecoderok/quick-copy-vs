@@ -57,7 +57,7 @@
         <Parent guid="guidCommand1PackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Copy fully qualified name</ButtonText>
+          <ButtonText>Copy qualified name</ButtonText>
         </Strings>
       </Button>
     </Buttons>
