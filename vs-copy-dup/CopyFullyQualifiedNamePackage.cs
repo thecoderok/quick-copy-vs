@@ -1,6 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="CopyFullyQualifiedNamePackage.cs" company="Tableau">
-//     Copyright (c) Tableau.  All rights reserved.
+// <copyright file="CopyFullyQualifiedNamePackage.cs">
 // </copyright>
 //------------------------------------------------------------------------------
 
@@ -15,7 +14,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
+namespace VitaliiGanzha.VisualStudio.CopyQualifiedNameExtension
 {
     //https://msdn.microsoft.com/en-us/library/envdte.filecodemodel.codeelementfrompoint.aspx
     //http://www.diaryofaninja.com/blog/2014/02/18/who-said-building-visual-studio-extensions-was-hard
@@ -100,9 +99,9 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
                     }
                     catch (Exception ex)
                     {
-                        ActivityLog.TryLogInformation(this.GetType().FullName, "Unable to get code element, exception: " + ex.Message);
+                        ActivityLog.LogInformation(this.GetType().FullName, "Unable to get code element, exception: " + ex.Message);
                         continue;
-                    }                    
+                    }
                 }
 
                 if (!string.IsNullOrWhiteSpace(longestName))
@@ -130,7 +129,7 @@ namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
 
         public void Dispose()
         {
-            
+
         }
 
         #endregion

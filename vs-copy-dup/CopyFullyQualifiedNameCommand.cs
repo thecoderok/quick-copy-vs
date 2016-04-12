@@ -1,14 +1,9 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="Command1.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.ComponentModel.Design;
 using Microsoft.VisualStudio.Shell;
+using VitaliiGanzha.VisualStudio.CopyQualifiedNameExtension;
 
-namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
+namespace VitaliiGanzha.VisualStudio.CopyQualifiedNameExtension
 {
     /// <summary>
     /// Command handler

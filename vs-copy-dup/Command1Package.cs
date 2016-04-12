@@ -1,15 +1,9 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="Command1Package.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 
-namespace VitaliiGanzha.VisualStudio.CopyFullyQualifiedNameExtension
+namespace VitaliiGanzha.VisualStudio.CopyQualifiedNameExtension
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
