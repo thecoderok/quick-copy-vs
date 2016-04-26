@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vs-copy-dup", "vs-copy-dup\vs-copy-dup.csproj", "{B0F4C6FA-D232-4E13-8897-7DD47F1EBBE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6ED5F53A-A076-4AC9-B5F4-87CF49689369}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Versions.txt = Versions.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
